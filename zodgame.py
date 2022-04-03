@@ -41,6 +41,7 @@ def zodgame_get_user_info(session):
 def zodgame_log_user_info(session):
     rsp = session.get("https://zodgame.xyz/plugin.php?id=jnbux")
     page = rsp.text.encode(rsp.encoding).decode(rsp.apparent_encoding)
+    assert "退出" in page, "sign failed, page: {}".format(page)
     logging.debug("page: {}".format(page))
     body = BeautifulSoup(page, 'html.parser')
     info = body.find_all("ul", class_ = "xl xl2 cl")
@@ -76,7 +77,7 @@ def zodgame_sign():
     pass
 
 def main():
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.DEBUG)
     time.sleep(30 + random.randint(0,30))
     zodgame_sign()
     pass
